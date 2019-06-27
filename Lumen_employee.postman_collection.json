@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "e5e5a565-e175-4d14-a13e-ba95017700e6",
+		"name": "Lumen",
+		"description": "RESTapi-Lumen-CRUD\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8000/employee/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/employee/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"employee",
+						"list"
+					]
+				},
+				"description": "menampilkan semua data employee yang ada di database yang status deleted_at nya null"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/employee/detail/{ID}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/employee/detail/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"employee",
+						"detail",
+						"1"
+					]
+				},
+				"description": "menampilkan satu data employee berdasarkan ID di database yang status deleted_at nya null"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/employee/insert",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nik",
+							"value": "0000",
+							"type": "text"
+						},
+						{
+							"key": "nama",
+							"value": "Muchamad Ardiansyah",
+							"type": "text"
+						},
+						{
+							"key": "alamat",
+							"value": "Bogor",
+							"type": "text"
+						},
+						{
+							"key": "umur",
+							"value": "22",
+							"type": "text"
+						},
+						{
+							"key": "tgl_lahir",
+							"value": "1996-11-18",
+							"type": "text"
+						},
+						{
+							"key": "tgl_gabung",
+							"value": "2019-01-01",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/employee/insert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"employee",
+						"insert"
+					]
+				},
+				"description": "menambahkan satu data employee ke dalam database"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/employee/edit/{ID}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nik",
+							"value": "0096",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/employee/edit/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"employee",
+						"edit",
+						"1"
+					]
+				},
+				"description": "mengedit satu data employee berdasarkan ID dan mengubah field updated_at"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/employee/delete/{ID}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/employee/delete/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"employee",
+						"delete",
+						"1"
+					]
+				},
+				"description": "menghapus data sementara berdasarkan ID dengan mengisi field deleted_at, tidak menghapus permanen dari database dan bisa di restore"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/employee/restore/{ID}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/employee/restore/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"employee",
+						"restore",
+						"1"
+					]
+				},
+				"description": "restore satu data employee berdasarkan ID yang telah dihapus sementara dengan cara me null kan field deleted_at"
+			},
+			"response": []
+		}
+	]
+}

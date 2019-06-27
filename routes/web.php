@@ -16,10 +16,14 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/employees', 'EmployeeController@listEmp');
-$router->get('/employee/{id}', 'EmployeeController@emp');
-$router->post('/employee', 'EmployeeController@store');
-$router->put('/employee/{id}', 'EmployeeController@update');
-$router->delete('/employee/{id}', 'EmployeeController@softDelete');
-$router->put('/employee/restore/{id}', 'EmployeeController@restore');
-$router->delete('/employee/destroy/{id}', 'EmployeeController@destroy');
+
+$router->group(['prefix' => 'employee'], function() use($router) {
+    $router->get('/list', 'EmployeeController@index');
+    $router->get('/detail/{id}', 'EmployeeController@show');
+    $router->post('/detail', 'EmployeeController@getEmpId');
+    $router->post('/insert', 'EmployeeController@store');
+    $router->put('/edit/{id}', 'EmployeeController@update');
+    // $router->delete('/delete/{id}', 'EmployeeController@softDelete');
+    $router->put('/restore/{id}', 'EmployeeController@restore');
+    $router->put('/delete/{id}', 'EmployeeController@delete');
+});

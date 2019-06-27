@@ -1,5 +1,5 @@
-
 <?php
+
 if (!function_exists('responses')) {
     /**
      * Returns response json with 200 status code
@@ -13,17 +13,39 @@ if (!function_exists('responses')) {
      * @return json a json response for API
      *
      * */
+
      function responses($data, $status) {
         $resultPrint = [];
+
+        $resultPrint['error'] = false;
         if ($status == null) {
-            $resultPrint['status'] = 200;
+            $resultPrint['code'] = 200;
         } else {
-            $resultPrint['status'] = $status;
+            $resultPrint['code'] = $status;
         }
-        $resultPrint['data'] = $data;
-        return response()->json($resultPrint)->setStatusCode($resultPrint['status']);
+        if (isset($data['message']) == false) {
+            $resultPrint['message'] = 'Success';
+        } else {
+            $resultPrint['message'] = $data['message'];
+        }
+        $resultPrint['result'] = [];
+
+        $data = json_decode($data);
+        if(is_array($data) == true) {
+            $total = count($data);
+            $resultPrint['result']['num_found'] = $total;
+            $resultPrint['result']['start_index'] = 0;
+            $resultPrint['result']['end_index'] = $total-1;
+            $resultPrint['result']['rows'] = $data;
+        } else {
+            $resultPrint['result'] = $data;
+            unset($resultPrint['result']->message);
+        }
+
+        return response()->json($resultPrint)->setStatusCode($resultPrint['code']);
      }
 }
+
 if (!function_exists('errorCustomStatus')) {
         /**
      * Returns response json with 400 or other error status code
@@ -37,9 +59,11 @@ if (!function_exists('errorCustomStatus')) {
      * @return json a json response for API
      *
      * */
+
      function errorCustomStatus($status, $message) {
         $resultPrint = [];
         $resultPrint['status'] = $status;
+
         switch ($status) {
             case 404:
                 $resultPrint['message'] = "Halaman tidak ditemukan";
@@ -63,7 +87,8 @@ if (!function_exists('errorCustomStatus')) {
         return response()->json($resultPrint)->setStatusCode($status);
      }
 }
-if (!function_exists('queryError')) {
+
+if (!function_exists('errorQuery')) {
       /**
     *
     * @param string $message
@@ -74,15 +99,20 @@ if (!function_exists('queryError')) {
     * @return json a json response for API
     *
     **/
-    function queryError($message) {
+    function errorQuery($message) {
         $resultPrint = [];
         $resultPrint['status'] = 500;
         $resultPrint['message'] = $message;
+
         return response()->json($resultPrint)->setStatusCode(500);
     }
 }
+
+
+
 // REDIS
 if (!function_exists('getCache')) {
+
     /**
     *
     * @param string $key
@@ -96,11 +126,11 @@ if (!function_exists('getCache')) {
    function getCache($key) {
        if (app('redis')->get($key) != null) {
            $data = app('redis')->get($key);
-           $data = json_decode($data, true);
-           return responses($data, null);
+           return $data;
        }
    }
 }
+
 if (!function_exists('setCache')) {
      /**
     *
@@ -116,14 +146,30 @@ if (!function_exists('setCache')) {
        app('redis')->expire($key, 600);
    }
 }
+
 if (!function_exists('deleteCache')) {
-     /**
-    *
-    * @param string $key
-    * Set key for redis
-    *
-    **/
-    function deleteCache($key) {
-        app('redis')->del($key);
-    }
+    /**
+   *
+   * @param string $key
+   * Delete key for redis
+   *
+   **/
+   function deleteCache($key) {
+       app('redis')->del($key);
+   }
 }
+if (!function_exists('deleteAll')) {
+   /**
+  *
+  * @param string $key
+  * Delete key for redis
+  *
+  **/
+  function deleteAll($key) {
+      $allKeyapp = app('redis')->keys($key);
+      app('redis')->del($allKeyapp);
+  }
+}
+
+
+
